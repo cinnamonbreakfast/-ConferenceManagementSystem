@@ -2,13 +2,46 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ui.StartWindow"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="anchpane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ui.StartWindow">
+  <children>
+    <ImageView fitHeight="202.51758083366076" fitWidth="191.0" layoutX="0.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@images/sign/login_hero.png" />
+      </image>
+    </ImageView>
+    <VBox fx:id="mainLayout" layoutX="0.0" layoutY="2.0" prefHeight="400.0" prefWidth="600.0" style="-fx-alignment: center;">
+      <children>
+        <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefWidth="55.0" style="-fx-text-alignment: right;" text="📑" textAlignment="CENTER">
+          <font>
+            <Font size="39.0" />
+          </font>
+        </Label>
+        <Label text="Welcome to CMS">
+          <font>
+            <Font name="System Bold" size="25.0" />
+          </font>
+        </Label>
+        <Label prefWidth="200.0" text="Username or E-mail">
+          <VBox.margin>
+            <Insets top="25.0" />
+          </VBox.margin>
+        </Label>
+        <TextField maxHeight="30.0" maxWidth="220.0" prefHeight="30.0" prefWidth="200.0" style="-fx-text-box-border: none;&#10;-fx-background-color: #F3F3F3;&#10;-fx-border-radius: 5px;&#10;-fx-background-radius: 5px;" />
+        <Label maxWidth="200.0" prefWidth="200.0" text="Password">
+          <VBox.margin>
+            <Insets top="15.0" fx:id="x1" />
+          </VBox.margin>
+        </Label>
+        <TextField maxHeight="30.0" maxWidth="220.0" prefHeight="30.0" prefWidth="220.0" style="-fx-text-box-border: none;&#10;-fx-background-color: #F3F3F3;&#10;-fx-border-radius: 5px;&#10;-fx-background-radius: 5px;" />
+        <Button maxHeight="30.0" maxWidth="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" style="-fx-text-box-border: none;&#10;-fx-background-color: #FFA500;&#10;-fx-border-radius: 5px;&#10;-fx-background-radius: 5px;&#10;-fx-text-fill: #FFFFFF;" text="Sign in" VBox.margin="$x1" />
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>
