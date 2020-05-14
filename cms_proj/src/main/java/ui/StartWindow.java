@@ -4,10 +4,12 @@ import com.sun.tools.javac.Main;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,8 @@ import javafx.util.Duration;
 import javax.naming.PartialResultException;
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StartWindow extends Application {
 
@@ -29,6 +33,8 @@ public class StartWindow extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -50,6 +56,23 @@ public class StartWindow extends Application {
         
 
 
+    }
+
+
+    private void displayExamples(){
+        loginBtn.setOnAction(actionEvent -> {
+            try {
+                FXMLLoader root2 = new FXMLLoader(MainWindow.class.getResource("/MainWindow.fxml"));
+                Parent parent = (Parent) root2.load();
+
+                Stage new_stage = new Stage();
+                new_stage.setTitle("CMS 2");
+                new_stage.setScene(new Scene(parent));
+                new_stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -75,5 +98,7 @@ public class StartWindow extends Application {
         floatAnimation.setCycleCount(Timeline.INDEFINITE);
         floatAnimation.setAutoReverse(true);
         floatAnimation.play();
+        displayExamples();
+
     }
 }
