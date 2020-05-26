@@ -1,0 +1,46 @@
+package model;
+
+import lombok.*;
+import org.hibernate.annotations.NamedQuery;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Table(name="users", schema="development")
+@javax.persistence.Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Builder
+@NamedQuery(name = "User.findByUsernameAndPassword", query = "select u from User u where u.username = ?1 and u.password = ?2")
+public class User extends Entity<Long> {
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String username;
+
+    @Basic(optional = true)
+    @Column(nullable = false)
+    private String firstName;
+
+    @Basic(optional = true)
+    @Column(nullable = false)
+    private String lastName;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String email;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String password;
+
+//    @OneToMany(
+//            mappedBy = "users",
+//            cascade = CascadeType.PERSIST,
+//            fetch = FetchType.LAZY
+//    )
+    @OneToMany(mappedBy = "chair", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    List<Conference> conferences;
+}

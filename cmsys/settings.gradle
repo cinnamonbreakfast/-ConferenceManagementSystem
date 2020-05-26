@@ -1,0 +1,6 @@
+rootProject.name = 'cmsys'
+include 'server'
+include 'core'
+include 'common'
+include 'client'
+
