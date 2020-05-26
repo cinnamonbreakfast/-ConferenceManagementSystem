@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 
@@ -65,9 +66,12 @@ public class UserProvider {
         HttpHeaders headers = new HttpHeaders();
         headers.set("SESSION", this.token);
 
-        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+        HttpEntity<Long> entity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(URL + "/conference/test", HttpMethod.POST, entity, String.class).getBody();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/testAccessPage")
+                .queryParam("conferenceID", 1L);
+
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, String.class).getBody();
     }
 
     public void testMakingConference() {

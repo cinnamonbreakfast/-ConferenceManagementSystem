@@ -1,6 +1,7 @@
 package model;
 
 import lombok.*;
+import model.util.Permission;
 import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.*;
@@ -43,4 +44,7 @@ public class User extends Entity<Long> {
 //    )
     @OneToMany(mappedBy = "chair", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     List<Conference> conferences;
+
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, targetEntity = Permission.class)
+    List<Permission> permission;
 }

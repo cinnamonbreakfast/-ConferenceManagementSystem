@@ -7,15 +7,14 @@ import dto.UserDTO;
 import dto.UserRegisterDTO;
 import javafx.util.Pair;
 import model.User;
+import model.util.Permission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
+import service.PermissionService;
 import service.UserService;
-
-import javax.servlet.http.HttpSession;
-import org.springframework.http.HttpHeaders;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
@@ -27,14 +26,21 @@ import java.util.List;
 public class UserController {
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final SessionKeeper sessionKeeper;
+
+    private final SessionController sessionController;
+
+    private final PermissionService permissionService;
 
     @Autowired
-    private SessionKeeper sessionKeeper;
-
-    @Autowired
-    private SessionController sessionController;
+    public UserController(UserService userService, SessionKeeper sessionKeeper, SessionController sessionController, PermissionService permissionService) {
+        this.userService = userService;
+        this.sessionKeeper = sessionKeeper;
+        this.sessionController = sessionController;
+        this.permissionService = permissionService;
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     UserDTO login(@RequestBody LoginCredentials loginCredentials) {
@@ -87,8 +93,8 @@ public class UserController {
 
     // use this as a template for your controllers
     // check the login with request parameter, by looking for an active session
-    @RequestMapping(value = "/testAccessPage", method = RequestMethod.POST)
-    String test(HttpEntity<String> request) {
+    @RequestMapping(value = "/testAccessPage", method = RequestMethod.GET)
+    String test(HttpEntity<Long> request, @RequestParam(required = true) Long conferenceID) {
 
 
         if(request.getHeaders().get("SESSION") != null)
@@ -97,7 +103,11 @@ public class UserController {
 
             if(sessionKeeper.sessionExists(token))
             {
-                return "ok";
+                String username = sessionKeeper.getUsername(token);
+
+                Permission permission = permissionService.getPermission(username, conferenceID);
+
+                return "ok" + permission.getChair() + permission.getCoChair() + permission.getAuthor();
             } else {
                 return "not_logged_in";
             }
