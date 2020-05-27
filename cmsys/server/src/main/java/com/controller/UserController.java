@@ -1,7 +1,7 @@
 package com.controller;
 
 import com.session.SessionKeeper;
-import dto.ConferenceDTO;
+import converter.UserConverter;
 import dto.LoginCredentials;
 import dto.UserDTO;
 import dto.UserRegisterDTO;
@@ -18,8 +18,6 @@ import service.UserService;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -34,12 +32,15 @@ public class UserController {
 
     private final PermissionService permissionService;
 
+    private final UserConverter userConverter;
+
     @Autowired
-    public UserController(UserService userService, SessionKeeper sessionKeeper, SessionController sessionController, PermissionService permissionService) {
+    public UserController(UserService userService, SessionKeeper sessionKeeper, SessionController sessionController, PermissionService permissionService, UserConverter userConverter) {
         this.userService = userService;
         this.sessionKeeper = sessionKeeper;
         this.sessionController = sessionController;
         this.permissionService = permissionService;
+        this.userConverter = userConverter;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -57,35 +58,23 @@ public class UserController {
         {
             Pair<String, LocalDateTime> session = sessionKeeper.makeSession(loginCredentials.getUsername());
 
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(resultUser.getId());
-            userDTO.setUsername(resultUser.getUsername());
-            userDTO.setFirstName(resultUser.getFirstName());
-            userDTO.setLastName(resultUser.getLastName());
-            userDTO.setEmail(resultUser.getEmail());
-
             if(session != null)
             {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(resultUser.getId());
+                userDTO.setUsername(resultUser.getUsername());
+                userDTO.setFirstName(resultUser.getFirstName());
+                userDTO.setLastName(resultUser.getLastName());
+                userDTO.setEmail(resultUser.getEmail());
+
+
                 userDTO.setToken(session.getKey());
                 userDTO.setLoginTime(session.getValue());
+
+                return userDTO;
             }
 
-            List<ConferenceDTO> conferenceDTOList = new ArrayList<>();
-
-            resultUser.getConferences().forEach(e -> {
-                ConferenceDTO conferenceDTO = new ConferenceDTO();
-                conferenceDTO.setChair(null);
-                conferenceDTO.setTitle(e.getTitle());
-                conferenceDTO.setDescription(e.getDescription());
-                conferenceDTO.setPhase(e.getPhase());
-
-                conferenceDTOList.add(conferenceDTO);
-            });
-
-            userDTO.setConferences(conferenceDTOList);
-
-
-            return userDTO;
+            return null;
         }
 
         return null;

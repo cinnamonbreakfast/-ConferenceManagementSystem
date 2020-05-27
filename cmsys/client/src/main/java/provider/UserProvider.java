@@ -1,6 +1,8 @@
 package provider;
 
 import dto.*;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -11,8 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 
-@Component("comp")
+@Component
 public class UserProvider {
     @Value("http://localhost:8080")
     private String URL;
@@ -20,6 +23,10 @@ public class UserProvider {
     private LocalDateTime loginTime;
 
     private final RestTemplate restTemplate;
+
+    public String getURL() {
+        return URL;
+    }
 
     @Autowired
     public UserProvider(RestTemplate restTemplate) {
@@ -41,10 +48,10 @@ public class UserProvider {
         );
     }
 
-    public UserDTO login() {
+    public UserDTO login(String username, String password) {
         LoginCredentials dto = new LoginCredentials();
-        dto.setPassword("12345678");
-        dto.setUsername("andrew");
+        dto.setPassword(password);
+        dto.setUsername(username);
         dto.setLoginTime("1");
 
         UserDTO response = restTemplate.postForObject(
@@ -57,9 +64,11 @@ public class UserProvider {
         {
             this.token = response.getToken();
             this.loginTime = response.getLoginTime();
+
+            return response;
         }
 
-        return response;
+        return null;
     }
 
     public String testAccessPage() {
@@ -86,8 +95,6 @@ public class UserProvider {
         conferenceDTO.setTitle("Test Conference");
         conferenceDTO.setDescription("A cool conference");
         conferenceDTO.setPhase(0);
-
-        conferenceDTO.setChair(chairDTO);
 
         System.out.println(conferenceDTO);
 

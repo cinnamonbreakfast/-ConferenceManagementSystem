@@ -6,12 +6,19 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import provider.UserProvider;
+import ui.StartWindow;
 
 @Configuration
-@ComponentScan("provider")
+@ComponentScan({"provider", "ui"})
 public class ClientConfig {
-    @Bean
+    @Bean("RestTemplate")
     RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    StartWindow startWindow()
+    {
+        return new StartWindow();
     }
 }

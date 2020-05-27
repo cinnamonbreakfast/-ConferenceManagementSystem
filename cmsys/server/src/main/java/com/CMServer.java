@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = {"com.controller", "com.session", "service", "model", "repository"})
+@SpringBootApplication(scanBasePackages = {"com.controller", "com.session", "service", "model", "repository", "converter"})
 @EntityScan("model")
 @Import({JPAConfig.class, WebConfig.class})
 public class CMServer {
