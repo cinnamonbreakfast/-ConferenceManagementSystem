@@ -11,7 +11,9 @@ import model.util.Permission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.Slf4JLoggingSystem;
 import org.springframework.http.HttpEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import service.PermissionService;
 import service.UserService;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 
 
 @RestController
+@SessionAttributes("token")
 public class UserController {
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -83,26 +86,8 @@ public class UserController {
     // use this as a template for your controllers
     // check the login with request parameter, by looking for an active session
     @RequestMapping(value = "/testAccessPage", method = RequestMethod.GET)
-    String test(HttpEntity<Long> request, @RequestParam(required = true) Long conferenceID) {
-
-
-        if(request.getHeaders().get("SESSION") != null)
-        {
-            String token = request.getHeaders().get("SESSION").get(0);
-
-            if(sessionKeeper.sessionExists(token))
-            {
-                String username = sessionKeeper.getUsername(token);
-
-                Permission permission = permissionService.getPermission(username, conferenceID);
-
-                return "ok" + permission.getChair() + permission.getCoChair() + permission.getAuthor();
-            } else {
-                return "not_logged_in";
-            }
-        } else {
-            return "not_logged_in";
-        }
+    String test() {
+        return "not_logged_in";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -113,13 +98,19 @@ public class UserController {
             e.printStackTrace();
         }
 
-        User registeredUser = userService.registerNewUserAccount(userRegisterDTO);
+        User registeredUser = null;
 
-        if(registeredUser == null)
-        {
-            return "ok";
+        try {
+            registeredUser = userService.registerNewUserAccount(userRegisterDTO);
+        } catch (Exception e) {
+            return e.getMessage();
         }
 
-        return "error";
+        if(registeredUser != null)
+        {
+            return "Account successfully registered! You can sign in now.";
+        }
+
+        return "An error occurred. Try again later.";
     }
 }

@@ -26,6 +26,7 @@ public class ClientMS extends Application {
 
         AnchorPane acp = root.load();
         acp.getStylesheets().add("ui/forms/basic_forms.css");
+        acp.getStylesheets().add("ui/main/main_window.css");
 
         Scene scene = new Scene(acp, 600, 485);
 

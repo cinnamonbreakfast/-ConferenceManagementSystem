@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -25,11 +27,28 @@ public class UserService {
         return requestUser;
     }
 
-    public User registerNewUserAccount(UserRegisterDTO accountDto) {
-//        if (emailExist(accountDto.getEmail())) {
-//            throw new EmailExistsException(
-//                    "There is an account with that email adress:" + accountDto.getEmail());
-//        }
+    public boolean emailExists(String email)
+    {
+        User result = userRepository.findByEmail(email);
+        return result != null;
+    }
+
+    public boolean usernameExists(String username)
+    {
+        User result = userRepository.findByUsername(username);
+        return result != null;
+    }
+
+    public User registerNewUserAccount(UserRegisterDTO accountDto) throws Exception {
+        if (emailExists(accountDto.getEmail())) {
+            throw new Exception(
+                    "There is an account with that email address: " + accountDto.getEmail());
+        }
+
+        if (usernameExists(accountDto.getUsername())) {
+            throw new Exception(
+                    "There is an account with that email username: " + accountDto.getEmail());
+        }
 
         User user = new User();
         user.setUsername(accountDto.getUsername());
@@ -37,8 +56,6 @@ public class UserService {
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
-
-//        user.setRole(new Role(Integer.valueOf(1), user));
 
         return userRepository.save(user);
     }

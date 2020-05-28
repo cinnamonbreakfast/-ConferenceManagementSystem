@@ -1,13 +1,18 @@
 package ui;
 
+import dto.ConferencesDTO;
+import dto.UserRegisterDTO;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -18,14 +23,18 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import provider.ConferenceProvider;
 import provider.UserProvider;
+import ui.conferences.Hello;
+import ui.conferences.NewConference;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class MainWindow {
 
     @FXML public AnchorPane anchorPane;
-    @FXML public Button membersTab;
     @FXML public Button conferencesTab;
     @FXML public Button settingsTab;
     @FXML public Label tabLocation;
@@ -33,14 +42,20 @@ public class MainWindow {
     @FXML public SplitPane splitPane;
     @FXML public Rectangle avatar;
     @FXML public ImageView crown;
+    @FXML public AnchorPane mainContent;
     private int activeTab = 2;
 
     @Autowired
     private UserProvider userProvider;
 
+    @Autowired
+    private ConferenceProvider conferenceProvider;
+
+    @Autowired
+    private AnnotationConfigApplicationContext context;
+
     @FXML
     void conferencesClick(ActionEvent event) {
-        membersTab.getStyleClass().remove("active");
         conferencesTab.getStyleClass().remove("active");
         settingsTab.getStyleClass().remove("active");
 
@@ -49,16 +64,23 @@ public class MainWindow {
 
         tabLocation.setText("Home > Conferences");
         tabTitle.setText("Conferences");
+
+        Task conferencesList = new Task<ConferencesDTO>() {
+            @Override
+            public ConferencesDTO call() {
+                return conferenceProvider.getMyConferences();
+            }
+        };
+        conferencesList.setOnSucceeded(response -> setConferences((ConferencesDTO)conferencesList.getValue()));
+        new Thread(conferencesList).start();
     }
 
     @FXML
     void membersClick(ActionEvent event)
     {
-        membersTab.getStyleClass().remove("active");
         conferencesTab.getStyleClass().remove("active");
         settingsTab.getStyleClass().remove("active");
 
-        membersTab.getStyleClass().add("active");
         activeTab = 0;
 
         tabLocation.setText("Home > Members");
@@ -68,7 +90,6 @@ public class MainWindow {
     @FXML
     void settingsClick(ActionEvent event)
     {
-        membersTab.getStyleClass().remove("active");
         conferencesTab.getStyleClass().remove("active");
         settingsTab.getStyleClass().remove("active");
 
@@ -79,19 +100,27 @@ public class MainWindow {
         tabTitle.setText("Settings");
     }
 
-
-    @FXML
-    void createConference(ActionEvent event)
+    void setConferences(ConferencesDTO dtos)
     {
-//        splitPane.setDividerPosition(0, 0.07);
+        if(dtos.getSize() == 0)
+        {
+            FXMLLoader root3 = new FXMLLoader(Hello.class.getResource("/FXML/conferences/Hello.fxml"));
+            root3.setControllerFactory(context::getBean);
+            try {
+                AnchorPane test = root3.load();
 
-        BooleanProperty collapsed = new SimpleBooleanProperty();
-        collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0, 0.06));
+                AnchorPane.setBottomAnchor(test, 0D);
+                AnchorPane.setRightAnchor(test, 0D);
+                AnchorPane.setTopAnchor(test, 0D);
+                AnchorPane.setLeftAnchor(test, 0D);
 
-        double target = collapsed.get() ? 0.2 : 0.06 ;
-        KeyValue keyValue = new KeyValue(splitPane.getDividers().get(0).positionProperty(), target);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300), keyValue));
-        timeline.play();
+                mainContent.getChildren().clear();
+                mainContent.getChildren().add(test);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @FXML
@@ -118,5 +147,9 @@ public class MainWindow {
         floatAnimation.setCycleCount(Timeline.INDEFINITE);
         floatAnimation.setAutoReverse(true);
         floatAnimation.play();
+
+        conferenceProvider.setToken(userProvider.getToken());
+
+        conferencesClick(null);
     }
 }

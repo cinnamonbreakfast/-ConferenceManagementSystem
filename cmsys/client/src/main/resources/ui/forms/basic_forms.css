@@ -20,10 +20,6 @@
     -fx-background-color: -cms-ui-bg;
 }
 
-.grey-label {
-    -fx-text-fill: -cms-label-grey;
-}
-
 .text-field, .basic-input {
     -fx-text-box-border: none;
     -fx-background-color: #F3F3F3;
@@ -47,8 +43,12 @@
     -fx-background-color: -cms-theme-pressed;
 }
 
-.h2 {
+.h2.grey-label {
+    -fx-text-fill: -cms-label-grey;
+}
 
+.grey-label {
+    -fx-text-fill: -cms-label-grey;
 }
 
 .tab-pane {
@@ -86,4 +86,47 @@
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+}
+
+.button.black-button {
+    -fx-text-box-border: none;
+    -fx-background-color: #333333;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #FFFFFF;
+}
+.button.black-button:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.8;
+}
+.button.black-button:pressed {
+    -fx-background-color: #222222;
+}
+
+.button.transparent-button {
+    -fx-text-box-border: none;
+    -fx-background-color: #F3F3F3;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #333333;
+}
+.button.transparent-button:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.8;
+}
+.button.transparent-button:pressed {
+    -fx-background-color: #CBCBCB;
+}
+
+.text-area {
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.text-area .content {
+    -fx-text-box-border: none;
+    -fx-background-color: #F3F3F3;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-family: OpenSansEmoji;
 }

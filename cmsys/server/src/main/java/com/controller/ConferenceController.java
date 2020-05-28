@@ -2,16 +2,18 @@ package com.controller;
 
 import com.session.SessionKeeper;
 import dto.ConferenceDTO;
+import dto.ConferencesDTO;
 import model.Conference;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import service.ConferenceService;
 import service.UserService;
+
+import java.awt.print.Pageable;
+import java.util.Map;
 
 @RestController
 public class ConferenceController {
@@ -29,24 +31,23 @@ public class ConferenceController {
         this.sessionKeeper = sessionKeeper;
     }
 
-    @RequestMapping(value ="/conference/test", method = RequestMethod.POST)
-    String test(HttpEntity<String> request) {
-        if(request.getHeaders().get("SESSION") != null)
+    @RequestMapping(value ="/conference/get", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody ConferencesDTO test(@RequestBody @Validated ConferencesDTO probe, @RequestHeader(value = "SESSION") String token) {
+        if(sessionKeeper.sessionExists(token))
         {
-            String token = request.getHeaders().get("SESSION").get(0);
+            String username = sessionKeeper.getUsername(token);
 
-            if(sessionKeeper.sessionExists(token))
-            {
-                return "ok" + sessionKeeper.getUsername(token);
-            } else {
-                return "not_logged_in";
-            }
+            ConferencesDTO response = new ConferencesDTO();
+            response.setSize(0);
+
+            return response;
         } else {
-            return "not_logged_in";
+            System.out.println("Non existent token, " + token);
+            return null;
         }
     }
 
-    @RequestMapping(value = "/conference", method = RequestMethod.PUT)
+    @RequestMapping(value = "/conference/test", method = RequestMethod.PUT)
     String addConference(@RequestBody ConferenceDTO conferenceDTO) {
         User chair = new User();
         chair.setEmail("candetandrei@gmail.com");

@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class UserProvider {
-    @Value("http://localhost:8080")
+    @Value("http://25.139.122.210:8080")
     private String URL;
     private String token = null;
     private LocalDateTime loginTime;
@@ -27,19 +27,16 @@ public class UserProvider {
     public String getURL() {
         return URL;
     }
+    public String getToken() {
+        return token;
+    }
 
     @Autowired
     public UserProvider(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public String register() {
-        UserRegisterDTO dto = new UserRegisterDTO();
-        dto.setEmail("candetandrei@gmail.com");
-        dto.setFirstName("Candet");
-        dto.setLastName("Andrei");
-        dto.setUsername("andrew");
-        dto.setPassword("12345678");
+    public String register(UserRegisterDTO dto) {
 
         return restTemplate.postForObject(
                 URL + "/register",
@@ -77,8 +74,7 @@ public class UserProvider {
 
         HttpEntity<Long> entity = new HttpEntity<>(headers);
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/testAccessPage")
-                .queryParam("conferenceID", 1L);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/testAccessPage");
 
         return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, String.class).getBody();
     }
