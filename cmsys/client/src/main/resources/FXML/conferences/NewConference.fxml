@@ -38,15 +38,20 @@
                   <AnchorPane prefHeight="200.0" prefWidth="150.0">
                      <children>
                         <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="150.0" />
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Rectangle arcHeight="240.0" arcWidth="240.0" fill="#fcfcfc" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+                              <Rectangle arcHeight="240.0" arcWidth="240.0" fill="#fcfcfc" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                              </Rectangle>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
                                  <styleClass>
                                     <String fx:value="h2" />
                                     <String fx:value="grey-label" />
                                  </styleClass>
                               </Text>
+                              <Text fill="#818181" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="grey-label" text="Rank" />
                            </children>
                            <padding>
                               <Insets top="30.0" />

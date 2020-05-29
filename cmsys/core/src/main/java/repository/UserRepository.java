@@ -11,4 +11,5 @@ public interface UserRepository extends Repository<Long, User> {
 
     User findByEmail(String email);
     User findByUsername(String username);
+    List<User> findFirst10ByUsername(String username);
 }

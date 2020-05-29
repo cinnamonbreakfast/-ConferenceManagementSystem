@@ -19,8 +19,15 @@ public class PermissionService {
     {
         Permission permission = permissionRepository.findByUsernameAndConference(username, conference);
 
-        permission.getConference().setChair(null);
-
         return permission;
+    }
+
+    public Permission setPermission(Permission permission)
+    {
+        return permissionRepository.save(permission);
+    }
+
+    public Permission findByUsernameAndConference(String username, Long conferenceID) {
+        return permissionRepository.findByUsernameAndConference(username, conferenceID);
     }
 }

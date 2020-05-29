@@ -28,6 +28,12 @@ public class SessionKeeper {
         return new Pair<String, LocalDateTime>(token, loginTime);
     }
 
+    public boolean clear(String token)
+    {
+        sessions.remove(token);
+        return true;
+    }
+
     public String getUsername(String token) {
         return sessions.get(token).getKey();
     }

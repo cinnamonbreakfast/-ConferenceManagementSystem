@@ -1,19 +1,16 @@
 package provider;
 
 import dto.*;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CompletableFuture;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserProvider {
@@ -21,6 +18,7 @@ public class UserProvider {
     private String URL;
     private String token = null;
     private LocalDateTime loginTime;
+    private UserDTO user = null;
 
     private final RestTemplate restTemplate;
 
@@ -30,6 +28,7 @@ public class UserProvider {
     public String getToken() {
         return token;
     }
+    public UserDTO getUser() { return user; }
 
     @Autowired
     public UserProvider(RestTemplate restTemplate) {
@@ -37,7 +36,6 @@ public class UserProvider {
     }
 
     public String register(UserRegisterDTO dto) {
-
         return restTemplate.postForObject(
                 URL + "/register",
                 dto,
@@ -62,38 +60,57 @@ public class UserProvider {
             this.token = response.getToken();
             this.loginTime = response.getLoginTime();
 
+            this.user = response;
+
             return response;
         }
 
         return null;
     }
 
-    public String testAccessPage() {
+    public ResponseEntity<HttpStatus> logout() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("SESSION", this.token);
 
         HttpEntity<Long> entity = new HttpEntity<>(headers);
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/testAccessPage");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/logout");
 
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, String.class).getBody();
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, HttpStatus.class);
     }
 
-    public void testMakingConference() {
-        UserDTO chairDTO = new UserDTO();
-        chairDTO.setEmail("candetandrei@gmail.com");
-        chairDTO.setFirstName("Candet");
-        chairDTO.setLastName("Andrei");
-        chairDTO.setUsername("andrewcandet");
-        chairDTO.setId(6L);
+    @SuppressWarnings("unchecked")
+    public List<String> getMatchUsername(String username) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("SESSION", this.token);
 
-        ConferenceDTO conferenceDTO = new ConferenceDTO();
-        conferenceDTO.setTitle("Test Conference");
-        conferenceDTO.setDescription("A cool conference");
-        conferenceDTO.setPhase(0);
+        HttpEntity<String> entity = new HttpEntity<>(username, headers);
 
-        System.out.println(conferenceDTO);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/matchusername");
 
-        restTemplate.put(URL + "/conference", conferenceDTO, String.class);
+        ResponseEntity<List> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, List.class);
+
+        if(!responseEntity.getStatusCode().equals(HttpStatus.OK))
+        {
+            return new ArrayList<>();
+        }
+
+        return (List<String>) responseEntity.getBody();
+    }
+
+    public UserDTO getByUsername(String username)
+    {
+        return restTemplate.getForObject(URL + "/get/u/"+username, UserDTO.class);
+    }
+
+    public PermissionDTO getPermissions(Long conferenceID) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("SESSION", this.token);
+
+        HttpEntity<Long> entity = new HttpEntity<>(headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/user/permissions").queryParam("conferenceID", conferenceID);
+
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, PermissionDTO.class).getBody();
     }
 }

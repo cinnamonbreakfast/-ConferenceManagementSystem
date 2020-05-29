@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -37,6 +40,17 @@ public class UserService {
     {
         User result = userRepository.findByUsername(username);
         return result != null;
+    }
+
+    public List<String> getFirstTen(String username){
+        List<User> usersFromDb = userRepository.findFirst10ByUsername(username);
+
+        return usersFromDb.stream().map(User::getUsername).collect(Collectors.toList());
+    }
+
+    public User getByUsername(String username)
+    {
+        return userRepository.findByUsername(username);
     }
 
     public User registerNewUserAccount(UserRegisterDTO accountDto) throws Exception {

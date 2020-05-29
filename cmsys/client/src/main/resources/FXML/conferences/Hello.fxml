@@ -2,12 +2,13 @@
 
 <?scenebuilder-stylesheet ui/forms/basic_forms.css?>
 <?scenebuilder-stylesheet ui/main/main_window.css?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -71,7 +72,7 @@
                      <Insets bottom="20.0" />
                   </VBox.margin>
                </Text>
-               <DatePicker promptText="Abstract papers" />
+               <DatePicker fx:id="abstractDeadline" promptText="Abstract papers" />
             </VBox>
             <VBox prefHeight="200.0" HBox.hgrow="ALWAYS">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2" text="Full papers">
@@ -84,7 +85,7 @@
                      <Insets bottom="20.0" />
                   </VBox.margin>
                </Text>
-               <DatePicker promptText="Full papers">
+               <DatePicker fx:id="fullpapersDeadline" promptText="Full papers">
                   <VBox.margin>
                      <Insets />
                   </VBox.margin>
@@ -101,7 +102,7 @@
                      <Insets bottom="20.0" />
                   </VBox.margin>
                </Text>
-               <DatePicker promptText="Bidding phase" />
+               <DatePicker fx:id="biddingDeadline" promptText="Bidding phase" />
             </VBox>
             <padding>
                <Insets left="50.0" right="50.0" />
@@ -127,38 +128,28 @@
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
-               <TextField fx:id="createInviteUsername" prefHeight="25.0" prefWidth="200.0" promptText="\@username" HBox.hgrow="NEVER" />
-               <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" styleClass="black-button" text="Add" />
+               <TextField fx:id="createInviteUsername" onKeyTyped="#getSuggestion" prefHeight="25.0" prefWidth="200.0" promptText="\@username" HBox.hgrow="NEVER" />
+               <SplitMenuButton fx:id="inviteRank" mnemonicParsing="false" onAction="#selectRank" text="Author">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="Co-Chair" />
+                     <MenuItem mnemonicParsing="false" text="Reviewer" />
+                     <MenuItem mnemonicParsing="false" text="Author" />
+                  </items>
+               </SplitMenuButton>
+               <Button fx:id="inviteAdd" mnemonicParsing="false" onAction="#inviteUser" prefHeight="25.0" prefWidth="60.0" styleClass="black-button" text="Add" />
             </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
-               <AnchorPane maxHeight="210.0" minHeight="210.0" prefHeight="210.0">
-                  <HBox maxHeight="210.0" minHeight="210.0" prefHeight="210.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="225.0" minHeight="225.0" pannable="true" prefHeight="225.0" vbarPolicy="NEVER" VBox.vgrow="NEVER">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane fx:id="invitedUserInstance" prefHeight="200.0" prefWidth="150.0">
-                           <children>
-                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="150.0" />
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Rectangle arcHeight="240.0" arcWidth="240.0" fill="#fcfcfc" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
-                                       <styleClass>
-                                          <String fx:value="h2" />
-                                          <String fx:value="grey-label" />
-                                       </styleClass>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets top="30.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
+                        <HBox fx:id="invitedUserList" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                  </HBox>
-               </AnchorPane>
+                  </AnchorPane>
+               </content>
             </ScrollPane>
          </VBox>
       </AnchorPane>

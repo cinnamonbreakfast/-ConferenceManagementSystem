@@ -27,15 +27,15 @@ public class Permission extends Entity<Long> {
     @JoinColumn(name="conf_id", nullable=false)
     private Conference conference;
 
-    @Column(nullable = false)
+    @Column
     private Boolean chair;
 
-    @Column(nullable = false, name="cochair")
+    @Column(name="co_chair")
     private Boolean coChair;
 
-    @Column(nullable = false)
+    @Column
     private Boolean reviewer;
 
-    @Column(nullable = false)
+    @Column
     private Boolean author;
 }

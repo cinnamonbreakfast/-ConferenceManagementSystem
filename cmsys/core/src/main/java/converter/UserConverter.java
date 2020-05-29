@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserConverter extends BaseConverter<User, UserDTO> {
 
-    @Autowired
-    ConferenceConverter conferenceConverter;
-
     @Override
     public User convertDtoToModel(UserDTO dto) {
         User client = User.builder()

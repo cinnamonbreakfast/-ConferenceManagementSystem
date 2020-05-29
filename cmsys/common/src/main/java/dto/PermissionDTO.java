@@ -9,6 +9,8 @@ import lombok.*;
 @ToString(callSuper = true)
 @Builder
 public class PermissionDTO extends BaseDTO {
+    private Long conference;
+    private Long user;
     private Boolean author;
     private Boolean chair;
     private Boolean coChair;

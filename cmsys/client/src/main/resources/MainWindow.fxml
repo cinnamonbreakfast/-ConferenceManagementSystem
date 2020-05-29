@@ -60,8 +60,8 @@
                </ImageView>
                <VBox prefHeight="60.0" prefWidth="169.0">
                   <children>
-                     <Label styleClass="h2" text="Andrew" />
-                     <Button alignment="BASELINE_LEFT" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="65.0" styleClass="grayed" text="Sign out" />
+                     <Label fx:id="userName" styleClass="h2" text="Andrew" />
+                     <Button alignment="BASELINE_LEFT" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#signOut" prefHeight="25.0" prefWidth="65.0" styleClass="grayed" text="Sign out" />
                   </children>
                </VBox>
             </children>

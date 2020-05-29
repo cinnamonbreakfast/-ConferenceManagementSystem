@@ -44,8 +44,8 @@ public class User extends Entity<Long> {
 //            cascade = CascadeType.PERSIST,
 //            fetch = FetchType.LAZY
 //    )
-    @OneToMany(mappedBy = "chair", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    List<Conference> conferences;
+//    @OneToMany(mappedBy = "chair", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+//    List<Conference> conferences;
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, targetEntity = Permission.class)
     List<Permission> permission;

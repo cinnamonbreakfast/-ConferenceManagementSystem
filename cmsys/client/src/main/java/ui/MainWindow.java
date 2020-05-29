@@ -1,36 +1,36 @@
 package ui;
 
+import dto.ConferenceDTO;
 import dto.ConferencesDTO;
-import dto.UserRegisterDTO;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
+import dto.PermissionDTO;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import provider.ConferenceProvider;
 import provider.UserProvider;
 import ui.conferences.Hello;
-import ui.conferences.NewConference;
+import ui.conferences.MyConferences;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class MainWindow {
 
@@ -43,6 +43,7 @@ public class MainWindow {
     @FXML public Rectangle avatar;
     @FXML public ImageView crown;
     @FXML public AnchorPane mainContent;
+    public Label userName;
     private int activeTab = 2;
 
     @Autowired
@@ -54,8 +55,13 @@ public class MainWindow {
     @Autowired
     private AnnotationConfigApplicationContext context;
 
+    public void setLocation(String title, String location) {
+        tabTitle.setText(title);
+        tabLocation.setText(location);
+    }
+
     @FXML
-    void conferencesClick(ActionEvent event) {
+    public void conferencesClick(ActionEvent event) {
         conferencesTab.getStyleClass().remove("active");
         settingsTab.getStyleClass().remove("active");
 
@@ -100,25 +106,55 @@ public class MainWindow {
         tabTitle.setText("Settings");
     }
 
+    public void loadHello()
+    {
+        FXMLLoader root3 = new FXMLLoader(Hello.class.getResource("/FXML/conferences/Hello.fxml"));
+        root3.setControllerFactory(context::getBean);
+        try {
+            AnchorPane test = root3.load();
+
+            AnchorPane.setBottomAnchor(test, 0D);
+            AnchorPane.setRightAnchor(test, 0D);
+            AnchorPane.setTopAnchor(test, 0D);
+            AnchorPane.setLeftAnchor(test, 0D);
+
+            mainContent.getChildren().clear();
+            mainContent.getChildren().add(test);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadConferences(ConferencesDTO dtos)
+    {
+        FXMLLoader root4 = new FXMLLoader(MyConferences.class.getResource("/FXML/conferences/MyConferences.fxml"));
+        root4.setControllerFactory(context::getBean);
+
+        try {
+            AnchorPane test = root4.load();
+
+            MyConferences myConferences = (MyConferences) root4.getController();
+            myConferences.setSetupDTO(dtos);
+
+            AnchorPane.setBottomAnchor(test, 0D);
+            AnchorPane.setRightAnchor(test, 0D);
+            AnchorPane.setTopAnchor(test, 0D);
+            AnchorPane.setLeftAnchor(test, 0D);
+
+            mainContent.getChildren().clear();
+            mainContent.getChildren().add(test);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     void setConferences(ConferencesDTO dtos)
     {
         if(dtos.getSize() == 0)
         {
-            FXMLLoader root3 = new FXMLLoader(Hello.class.getResource("/FXML/conferences/Hello.fxml"));
-            root3.setControllerFactory(context::getBean);
-            try {
-                AnchorPane test = root3.load();
-
-                AnchorPane.setBottomAnchor(test, 0D);
-                AnchorPane.setRightAnchor(test, 0D);
-                AnchorPane.setTopAnchor(test, 0D);
-                AnchorPane.setLeftAnchor(test, 0D);
-
-                mainContent.getChildren().clear();
-                mainContent.getChildren().add(test);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadHello();
+        } else {
+            loadConferences(dtos);
         }
 
     }
@@ -135,7 +171,8 @@ public class MainWindow {
         anchorPane.getStylesheets().add("ui/forms/basic_forms.css");
         anchorPane.getStylesheets().add("ui/main/main_window.css");
 
-        ImagePattern pattern = new ImagePattern(new Image("images/sign/andrew.jpg"));
+        ImagePattern pattern = new ImagePattern(new Image(userProvider.getURL()+"/usr/"+userProvider.getUser().getUsername()+".jpg"));
+        userName.setText(userProvider.getUser().getLastName());
 
         avatar.setFill(pattern);
 
@@ -151,5 +188,37 @@ public class MainWindow {
         conferenceProvider.setToken(userProvider.getToken());
 
         conferencesClick(null);
+    }
+
+    @FXML
+    public void signOut(ActionEvent actionEvent) {
+        userProvider.logout();
+        Stage stage = (Stage) crown.getScene().getWindow();
+        stage.close();
+    }
+
+    public void openEvent(ConferenceDTO dto) {
+        setLocation(dto.getTitle(),dto.getTitle() + " > Main");
+
+
+
+        PermissionDTO permission = userProvider.getPermissions(dto.getId());
+
+        List<String> choices = new ArrayList<>();
+
+        if(permission.getAuthor() != null) choices.add("Author");
+        if(permission.getReviewer() != null) choices.add("Reviewer");
+        if(permission.getCoChair() != null) choices.add("Co-Chair");
+        if(permission.getChair() != null) choices.add("Chair");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
+        dialog.setTitle("Enter with role");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter with role:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(s -> System.out.println("Your choice: " + s));
+
+        dialog.showAndWait().ifPresent(s -> System.out.println("Your choice: " + s));
     }
 }
