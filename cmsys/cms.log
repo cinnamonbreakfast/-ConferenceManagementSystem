@@ -89,3 +89,45 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
 2020-05-29 13:49:35,276 INFO com.CMServer [main] Starting CMServer on DESKTOP-ULPNVQJ with PID 13368 (C:\Users\cande\Documents\Faculta\ISS\cmsys\server\build\classes\java\main started by cande in C:\Users\cande\Documents\Faculta\ISS\cmsys)
 2020-05-29 13:49:35,285 INFO com.CMServer [main] No active profile set, falling back to default profiles: default
 2020-05-29 13:49:42,625 INFO com.CMServer [main] Started CMServer in 8.445 seconds (JVM running for 10.609)
+2020-05-29 15:14:46,950 INFO com.CMServer [main] Starting CMServer on LAPTOP-G5KKT640 with PID 18844 (C:\Users\ceaca\Desktop\proiect\PisicutelePPufoase\cmsys\server\build\classes\java\main started by ceaca in C:\Users\ceaca\Desktop\proiect\PisicutelePPufoase\cmsys)
+2020-05-29 15:14:46,953 INFO com.CMServer [main] No active profile set, falling back to default profiles: default
+2020-05-29 15:14:49,901 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'conferenceController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.controller.ConferenceController] from ClassLoader [jdk.internal.loader.ClassLoaders$AppClassLoader@77556fd]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:289)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1286)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1201)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:557)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:882)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.CMServer.main(CMServer.java:16)
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [com.controller.ConferenceController] from ClassLoader [jdk.internal.loader.ClassLoaders$AppClassLoader@77556fd]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:481)
+	at org.springframework.util.ReflectionUtils.doWithLocalMethods(ReflectionUtils.java:321)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:267)
+	... 18 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: dto/ConferencesDTO
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3166)
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2309)
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:463)
+	... 20 common frames omitted
+Caused by: java.lang.ClassNotFoundException: dto.ConferencesDTO
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+	... 24 common frames omitted
+2020-05-29 15:15:12,674 INFO com.CMServer [main] Starting CMServer on LAPTOP-G5KKT640 with PID 15024 (C:\Users\ceaca\Desktop\proiect\PisicutelePPufoase\cmsys\server\build\classes\java\main started by ceaca in C:\Users\ceaca\Desktop\proiect\PisicutelePPufoase\cmsys)
+2020-05-29 15:15:12,677 INFO com.CMServer [main] No active profile set, falling back to default profiles: default
+2020-05-29 15:15:15,767 INFO com.CMServer [main] Started CMServer in 3.41 seconds (JVM running for 4.168)
