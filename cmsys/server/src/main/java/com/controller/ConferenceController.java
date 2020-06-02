@@ -1,31 +1,23 @@
 package com.controller;
-
 import com.session.SessionKeeper;
 import converter.ConferenceConverter;
+import converter.PaperConverter;
 import converter.UserConverter;
-import dto.ConferenceDTO;
-import dto.ConferencesDTO;
-import dto.PaperDTO;
-import dto.PapersDTO;
+import dto.*;
 import model.Conference;
 import model.User;
+import model.util.Assigns;
 import model.util.Paper;
 import model.util.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import service.ConferenceService;
-import service.PaperService;
-import service.PermissionService;
-import service.UserService;
+import service.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,14 +28,17 @@ public class ConferenceController {
     private final UserService userService;
     private final PermissionService permissionService;
     private final PaperService paperService;
+    private final AssignService assignService;
 
     private final SessionKeeper sessionKeeper;
 
+
     private final ConferenceConverter conferenceConverter;
     private final UserConverter userConverter;
+    private final PaperConverter paperConverter;
 
     @Autowired
-    public ConferenceController(ConferenceService service, UserService userService, SessionKeeper sessionKeeper, ConferenceConverter conferenceConverter, UserConverter userConverter, PermissionService permissionService, PaperService paperService) {
+    public ConferenceController(ConferenceService service, UserService userService, SessionKeeper sessionKeeper, ConferenceConverter conferenceConverter, UserConverter userConverter, PermissionService permissionService, PaperService paperService, AssignService assignService, PaperConverter paperConverter) {
         this.conferenceService = service;
         this.userService = userService;
         this.sessionKeeper = sessionKeeper;
@@ -51,6 +46,8 @@ public class ConferenceController {
         this.userConverter = userConverter;
         this.permissionService = permissionService;
         this.paperService = paperService;
+        this.assignService = assignService;
+        this.paperConverter = paperConverter;
     }
 
     @RequestMapping(value ="/conference/get", method = RequestMethod.POST, consumes = "application/json")
@@ -153,6 +150,118 @@ public class ConferenceController {
         pdd.setPapers(papers);
 
         return pdd;
+    }
+
+    @RequestMapping(value = "/bidding", method = RequestMethod.PUT)
+    ResponseEntity<AssignDTO> bidding(Long assignId, Long conferenceId, Boolean bid, @RequestHeader(value = "SESSION") String token){
+        if(sessionKeeper.sessionExists(token)){
+            String username = sessionKeeper.getUsername(token);
+            Permission permission = permissionService.getPermission(username, conferenceId);
+            if (permission.getChair()||permission.getCoChair()){
+                Assigns assigns = assignService.findById(assignId);
+                if(assigns.getPaper().getConference().getBiddingDeadline().isAfter(LocalDateTime.now())) {
+                    return new ResponseEntity<>(
+                            null,
+                            HttpStatus.I_AM_A_TEAPOT
+                    );
+
+                }
+                assigns.setDeclined(bid);
+                assignService.update(assigns);
+                AssignDTO assignDTO = AssignDTO.builder()
+                        .paper(paperConverter.convertModelToDto(assigns.getPaper()))
+                        .reviewer(userConverter.convertModelToDto(assigns.getUser()))
+                        .declined(assigns.getDeclined())
+                        .review(assigns.getReview())
+                        .rating(assigns.getRating())
+                        .build();
+                assignDTO.setId(assigns.getId());
+                return new ResponseEntity<>(
+                        assignDTO,
+                        HttpStatus.OK
+                );
+
+            }
+            return new ResponseEntity<>(
+                    null,
+                    HttpStatus.FORBIDDEN
+            );
+        }
+        return new ResponseEntity<>(
+                null,
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+    @RequestMapping(value = "/review", method = RequestMethod.PUT)
+    ResponseEntity<AssignDTO> updateAssign(Long assignId, Long conferenceId, String review, String rating, @RequestHeader(value = "SESSION") String token){
+        if(sessionKeeper.sessionExists(token)){
+            String username = sessionKeeper.getUsername(token);
+            Permission permission = permissionService.getPermission(username, conferenceId);
+            if (permission.getCoChair()||permission.getChair()){
+                Assigns assigns = assignService.findById(assignId);
+                assigns.setRating(rating);
+                assigns.setReview(review);
+                assignService.update(assigns);
+                AssignDTO assignDTO = AssignDTO.builder()
+                        .paper(paperConverter.convertModelToDto(assigns.getPaper()))
+                        .reviewer(userConverter.convertModelToDto(assigns.getUser()))
+                        .declined(assigns.getDeclined())
+                        .review(assigns.getReview())
+                        .rating(assigns.getRating())
+                        .build();
+                assignDTO.setId(assigns.getId());
+                return new ResponseEntity<>(
+                        assignDTO,
+                        HttpStatus.OK
+                );
+            }
+            return new ResponseEntity<>(
+                    null,
+                    HttpStatus.FORBIDDEN
+            );
+        }
+        return new ResponseEntity<>(
+                null,
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+    @RequestMapping(value = "/review/assign", method = RequestMethod.POST)
+    ResponseEntity<AssignDTO> assignPaper(String reviewer, Long paperId, Long conferenceId, @RequestHeader(value = "SESSION") String token){
+        if(sessionKeeper.sessionExists(token)){
+            String username = sessionKeeper.getUsername(token);
+            Permission permission = permissionService.getPermission(username,conferenceId);
+            if(permission.getChair()||permission.getCoChair())
+            {
+                Conference conference = conferenceService.getById(conferenceId);
+                User rev = userService.getByUsername(reviewer);
+                Paper paper = paperService.getById(paperId);
+                Assigns assigns = Assigns.builder()
+                        .paper(paper)
+                        .user(rev)
+                        .build();
+                System.out.println(assigns);
+                Assigns assigns2 = assignService.save(assigns);
+                AssignDTO assignDTO = AssignDTO.builder()
+                        .paper(paperConverter.convertModelToDto(paper))
+                        .reviewer(userConverter.convertModelToDto(rev))
+                        .build();
+                assignDTO.setId(assigns2.getId());
+                return new ResponseEntity<>(
+                        assignDTO,
+                        HttpStatus.OK
+                );
+
+            }
+            return new ResponseEntity<>(
+                    HttpStatus.FORBIDDEN
+            );
+        }
+        return new ResponseEntity<>(
+                HttpStatus.FORBIDDEN
+        );
+
     }
 
     @RequestMapping(value ="/conference", method = RequestMethod.POST, consumes = "application/json")

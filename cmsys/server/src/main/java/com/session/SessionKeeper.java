@@ -24,7 +24,7 @@ public class SessionKeeper {
         LocalDateTime loginTime = LocalDateTime.now();
 
         sessions.put(token, new Pair<>(username, loginTime));
-
+        System.out.println(token+" @"+loginTime+", "+username);
         return new Pair<String, LocalDateTime>(token, loginTime);
     }
 
