@@ -38,15 +38,4 @@ public class User extends Entity<Long> {
     @Basic(optional = false)
     @Column(nullable = false)
     private String password;
-
-//    @OneToMany(
-//            mappedBy = "users",
-//            cascade = CascadeType.PERSIST,
-//            fetch = FetchType.LAZY
-//    )
-//    @OneToMany(mappedBy = "chair", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-//    List<Conference> conferences;
-
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, targetEntity = Permission.class)
-    List<Permission> permission;
 }

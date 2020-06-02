@@ -1,8 +1,8 @@
 package provider;
 
-import dto.ConferenceDTO;
-import dto.ConferencesDTO;
-import dto.UserDTO;
+import dto.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -12,12 +12,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.http.HttpResponse;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class ConferenceProvider {
     @Value("http://25.139.122.210:8080")
     private String URL;
     private String token = null;
+
+    @Getter
+    @Setter
+    public ConferenceDTO loggedConference;
+
+    @Getter
+    @Setter
+    private PermissionDTO loggPermission;
+
+    @Getter
+    @Setter
+    private String permissionOn;
 
     private final RestTemplate restTemplate;
 
@@ -46,6 +59,22 @@ public class ConferenceProvider {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/conference/get");
 
         return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, ConferencesDTO.class).getBody();
+    }
+
+    @SuppressWarnings("unchecked")
+    public PapersDTO getMyPapersFromConference()
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("SESSION", this.token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/papers/get");
+        builder.queryParam("id", loggedConference.getId());
+
+        return (restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, PapersDTO.class).getBody());
     }
 
     public ResponseEntity<String> makeConference(ConferenceDTO setup)

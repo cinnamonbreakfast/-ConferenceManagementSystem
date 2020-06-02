@@ -5,11 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -101,6 +106,20 @@ public class UserProvider {
     public UserDTO getByUsername(String username)
     {
         return restTemplate.getForObject(URL + "/get/u/"+username, UserDTO.class);
+    }
+
+    public ResponseEntity<String> postFile(PaperDTO paper)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("SESSION", this.token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<PaperDTO> entity = new HttpEntity<>(paper, headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/papers");
+
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, String.class);
     }
 
     public PermissionDTO getPermissions(Long conferenceID) {

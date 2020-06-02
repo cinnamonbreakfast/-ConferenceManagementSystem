@@ -5,44 +5,52 @@ import converter.ConferenceConverter;
 import converter.UserConverter;
 import dto.ConferenceDTO;
 import dto.ConferencesDTO;
+import dto.PaperDTO;
+import dto.PapersDTO;
 import model.Conference;
 import model.User;
+import model.util.Paper;
 import model.util.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import service.ConferenceService;
+import service.PaperService;
 import service.PermissionService;
 import service.UserService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class ConferenceController {
 
     private final ConferenceService conferenceService;
-
     private final UserService userService;
+    private final PermissionService permissionService;
+    private final PaperService paperService;
 
     private final SessionKeeper sessionKeeper;
 
     private final ConferenceConverter conferenceConverter;
-
     private final UserConverter userConverter;
 
-    private final PermissionService permissionService;
-
     @Autowired
-    public ConferenceController(ConferenceService service, UserService userService, SessionKeeper sessionKeeper, ConferenceConverter conferenceConverter, UserConverter userConverter, PermissionService permissionService) {
+    public ConferenceController(ConferenceService service, UserService userService, SessionKeeper sessionKeeper, ConferenceConverter conferenceConverter, UserConverter userConverter, PermissionService permissionService, PaperService paperService) {
         this.conferenceService = service;
         this.userService = userService;
         this.sessionKeeper = sessionKeeper;
         this.conferenceConverter = conferenceConverter;
         this.userConverter = userConverter;
         this.permissionService = permissionService;
+        this.paperService = paperService;
     }
 
     @RequestMapping(value ="/conference/get", method = RequestMethod.POST, consumes = "application/json")
@@ -54,8 +62,6 @@ public class ConferenceController {
             List<Conference> conferences = conferenceService.getForUsername(username);
             response.setSize(conferences.size());
 
-            System.out.println(conferences.size());
-
             response.setConferences(conferenceConverter.convertModelsToDtos(conferences));
 
             response.getConferences().forEach(e -> {
@@ -66,6 +72,87 @@ public class ConferenceController {
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @RequestMapping(value = "/papers", method = RequestMethod.POST)
+    ResponseEntity<String> fileUpload(@RequestHeader(value = "SESSION") String token, @RequestBody PaperDTO paper) {
+        String username = sessionKeeper.getUsername(token);
+        User response = userService.getByUsername(username);
+        Conference conference = conferenceService.getById(paper.getConferenceDTO().getId());
+
+        Paper paperus = Paper.builder()
+                .title(paper.getTitle())
+                .keywords(paper.getKeywords())
+                .topics(paper.getTopics())
+                .user(userConverter.convertDtoToModel(paper.getUser()))
+                .conference(conferenceConverter.convertDtoToModel(paper.getConferenceDTO()))
+                .build();
+
+        paperService.save(paperus);
+
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/papers/get", method = RequestMethod.GET)
+    PapersDTO getMyPapers(@RequestHeader(value = "SESSION") String token, @RequestParam Long id) {
+        String username = sessionKeeper.getUsername(token);
+        User response = userService.getByUsername(username);
+
+        List<PaperDTO> papers = paperService.getByUandC(username, id).stream().map(e -> {
+            PaperDTO p = PaperDTO.builder()
+                    .title(e.getTitle())
+                    .topics(e.getTopics())
+                    .keywords(e.getKeywords())
+                    .user(userConverter.convertModelToDto(e.getUser()))
+                    .conferenceDTO(conferenceConverter.convertModelToDto(e.getConference()))
+                    .build();
+            p.setId(e.getId());
+
+            return p;
+        }).collect(Collectors.toList());
+
+        List<PaperDTO> papersR = paperService.rAssigned(username, id).stream().map(e -> {
+            PaperDTO p = PaperDTO.builder()
+                    .title(e.getTitle())
+                    .topics(e.getTopics())
+                    .keywords(e.getKeywords())
+                    .user(userConverter.convertModelToDto(e.getUser()))
+                    .conferenceDTO(conferenceConverter.convertModelToDto(e.getConference()))
+                    .build();
+            p.setId(e.getId());
+
+            return p;
+        }).collect(Collectors.toList());
+
+        System.out.println(papersR);
+
+        PapersDTO pdd = new PapersDTO();
+        pdd.setPapers(papers);
+
+        return pdd;
+    }
+
+    @RequestMapping(value = "/reviewer/assigned", method = RequestMethod.GET)
+    PapersDTO getRAssigned(@RequestHeader(value = "SESSION") String token, @RequestParam Long id) {
+        String username = sessionKeeper.getUsername(token);
+
+        List<PaperDTO> papers = paperService.rAssigned(username, id).stream().map(e -> {
+            PaperDTO p = PaperDTO.builder()
+                    .title(e.getTitle())
+                    .topics(e.getTopics())
+                    .keywords(e.getKeywords())
+                    .user(userConverter.convertModelToDto(e.getUser()))
+                    .conferenceDTO(conferenceConverter.convertModelToDto(e.getConference()))
+                    .build();
+            p.setId(e.getId());
+
+            return p;
+        }).collect(Collectors.toList());
+
+        PapersDTO pdd = new PapersDTO();
+        pdd.setPapers(papers);
+
+        return pdd;
     }
 
     @RequestMapping(value ="/conference", method = RequestMethod.POST, consumes = "application/json")
