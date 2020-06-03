@@ -14,6 +14,8 @@ public class ClientMS {
         System.out.println(userProvider.login());
         System.out.println(userProvider.testAccessPage());
 
+        userProvider.testCreateSubmission();
+
 
 //        userProvider.testMakingConference();
 

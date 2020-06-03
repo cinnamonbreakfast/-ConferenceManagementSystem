@@ -18,6 +18,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User findByUsername(String username)
+    {
+        return userRepository.findByUsername(username);
+    }
+
     public User loginAccount(LoginCredentials loginCredentials)
     {
         User requestUser = this.userRepository.findByUsernameAndPassword(loginCredentials.getUsername(), loginCredentials.getPassword());

@@ -93,4 +93,30 @@ public class UserProvider {
 
         restTemplate.put(URL + "/conference", conferenceDTO, String.class);
     }
+
+    public void testCreateSubmission()
+    {
+        UserDTO user = new UserDTO();
+        user.setEmail("candetandrei@gmail.com");
+        user.setFirstName("Candet");
+        user.setLastName("Andrei");
+        user.setUsername("andrewcandet");
+        user.setId(6L);
+
+        /*HttpHeaders headers = new HttpHeaders();
+        headers.set("SESSION");*/
+
+        PaperDTO paper = new PaperDTO();
+        paper.setName("paper test");
+        paper.setAbstractURL("paper abstract url");
+        paper.setOtherAuthors(null);
+
+        SubmissionDTO submission = new SubmissionDTO();
+        //submission.setUser(user);
+        submission.setPaper(paper);
+
+        System.out.println(submission);
+
+        restTemplate.put(URL + "/submission", submission, String.class);
+    }
 }
