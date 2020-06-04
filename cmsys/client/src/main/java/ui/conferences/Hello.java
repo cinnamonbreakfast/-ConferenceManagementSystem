@@ -255,7 +255,7 @@ public class Hello {
         step = 0;
         conferenceProvider.setToken(userProvider.getToken());
 
-        String[] suggestions = {"@raduceaca", "@bunuradu", "@radcoaiele"}; // TODO: getlist
+        String[] suggestions = {"@raduceaca", "@bunuradu"}; // TODO: getlist
 
         TextFields.bindAutoCompletion(createInviteUsername, suggestions);
 

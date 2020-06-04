@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -25,6 +26,7 @@ import provider.ConferenceProvider;
 import provider.UserProvider;
 import ui.conferences.Hello;
 import ui.conferences.MyConferences;
+import ui.conferences.author.Main;
 
 import java.awt.*;
 import java.io.IOException;
@@ -36,7 +38,6 @@ public class MainWindow {
 
     @FXML public AnchorPane anchorPane;
     @FXML public Button conferencesTab;
-    @FXML public Button settingsTab;
     @FXML public Label tabLocation;
     @FXML public Label tabTitle;
     @FXML public SplitPane splitPane;
@@ -44,6 +45,16 @@ public class MainWindow {
     @FXML public ImageView crown;
     @FXML public AnchorPane mainContent;
     public Label userName;
+    public Button chairAssignTab;
+    public Button chairMembers;
+    public VBox chairButtons;
+    public Button reviewerMembers;
+    public Button reviewerTaskTab;
+    public VBox reviewerButtons;
+    public Button authorMembers;
+    public Button authorTabMain;
+    public VBox authorButtons;
+    public VBox menuButtons;
     private int activeTab = 2;
 
     @Autowired
@@ -63,7 +74,6 @@ public class MainWindow {
     @FXML
     public void conferencesClick(ActionEvent event) {
         conferencesTab.getStyleClass().remove("active");
-        settingsTab.getStyleClass().remove("active");
 
         conferencesTab.getStyleClass().add("active");
         activeTab = 1;
@@ -85,7 +95,6 @@ public class MainWindow {
     void membersClick(ActionEvent event)
     {
         conferencesTab.getStyleClass().remove("active");
-        settingsTab.getStyleClass().remove("active");
 
         activeTab = 0;
 
@@ -97,9 +106,7 @@ public class MainWindow {
     void settingsClick(ActionEvent event)
     {
         conferencesTab.getStyleClass().remove("active");
-        settingsTab.getStyleClass().remove("active");
 
-        settingsTab.getStyleClass().add("active");
         activeTab = 2;
 
         tabLocation.setText("Home > Settings");
@@ -188,6 +195,18 @@ public class MainWindow {
         conferenceProvider.setToken(userProvider.getToken());
 
         conferencesClick(null);
+
+        menuButtons.setVisible(true);
+        menuButtons.setManaged(true);
+
+        authorButtons.setVisible(false);
+        authorButtons.setManaged(false);
+
+        reviewerButtons.setVisible(false);
+        reviewerButtons.setManaged(false);
+
+        chairButtons.setVisible(false);
+        chairButtons.setManaged(false);
     }
 
     @FXML
@@ -197,12 +216,36 @@ public class MainWindow {
         stage.close();
     }
 
+    public void openAsAuthor(PermissionDTO permission){
+        FXMLLoader authorMain = new FXMLLoader(Main.class.getResource("/FXML/conferences/author/Main.fxml"));
+        authorMain.setControllerFactory(context::getBean);
+
+        try {
+            AnchorPane test = authorMain.load();
+
+            Main authorMainController = (Main) authorMain.getController();
+            authorMainController.setPermission(permission);
+
+            AnchorPane.setBottomAnchor(test, 0D);
+            AnchorPane.setRightAnchor(test, 0D);
+            AnchorPane.setTopAnchor(test, 0D);
+            AnchorPane.setLeftAnchor(test, 0D);
+
+            mainContent.getChildren().clear();
+            mainContent.getChildren().add(test);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void openEvent(ConferenceDTO dto) {
         setLocation(dto.getTitle(),dto.getTitle() + " > Main");
 
-
+        conferenceProvider.setLoggedConference(dto);
 
         PermissionDTO permission = userProvider.getPermissions(dto.getId());
+
+        conferenceProvider.setLoggPermission(permission);
 
         List<String> choices = new ArrayList<>();
 
@@ -217,8 +260,24 @@ public class MainWindow {
         dialog.setContentText("Enter with role:");
 
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(s -> System.out.println("Your choice: " + s));
+        result.ifPresent(s -> {
+            if(s.equals("Author"))
+            {
+                openAsAuthor(permission);
+                conferenceProvider.setPermissionOn(s);
 
-        dialog.showAndWait().ifPresent(s -> System.out.println("Your choice: " + s));
+                menuButtons.setVisible(false);
+                menuButtons.setManaged(false);
+
+                authorButtons.setVisible(true);
+                authorButtons.setManaged(true);
+
+                reviewerButtons.setVisible(false);
+                reviewerButtons.setManaged(false);
+
+                chairButtons.setVisible(false);
+                chairButtons.setManaged(false);
+            }
+        });
     }
 }

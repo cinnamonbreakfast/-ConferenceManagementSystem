@@ -8,7 +8,9 @@ import dto.PermissionDTO;
 import dto.UserDTO;
 import dto.UserRegisterDTO;
 import javafx.util.Pair;
+import model.Conference;
 import model.User;
+import model.util.Paper;
 import model.util.Permission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.PaperService;
 import service.PermissionService;
 import service.UserService;
 
@@ -30,22 +33,21 @@ public class UserController {
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
-
     private final SessionKeeper sessionKeeper;
-
     private final SessionController sessionController;
-
     private final PermissionService permissionService;
+    private final PaperService paperService;
 
     private final UserConverter userConverter;
     private final PermissionConverter permissionConverter;
 
     @Autowired
-    public UserController(UserService userService, SessionKeeper sessionKeeper, SessionController sessionController, PermissionService permissionService, UserConverter userConverter, PermissionConverter permissionConverter) {
+    public UserController(UserService userService, SessionKeeper sessionKeeper, SessionController sessionController, PermissionService permissionService, PaperService paperService, UserConverter userConverter, PermissionConverter permissionConverter) {
         this.userService = userService;
         this.sessionKeeper = sessionKeeper;
         this.sessionController = sessionController;
         this.permissionService = permissionService;
+        this.paperService = paperService;
         this.userConverter = userConverter;
         this.permissionConverter = permissionConverter;
     }
@@ -133,7 +135,7 @@ public class UserController {
         if(sessionKeeper.sessionExists(token))
         {
             String username = sessionKeeper.getUsername(token);
-//            User user = userService.getByUsername(username);
+            User user = userService.getByUsername(username);
 
             Permission permission = permissionService.findByUsernameAndConference(username, conferenceID);
 

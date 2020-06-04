@@ -12,6 +12,8 @@ import ui.conferences.ConferencesPane;
 import ui.conferences.Hello;
 import ui.conferences.MyConferences;
 import ui.conferences.NewConference;
+import ui.conferences.author.Main;
+import ui.conferences.author.SelectFile;
 import ui.user.UserCard;
 
 @Configuration
@@ -60,5 +62,20 @@ public class ClientConfig {
     @Bean
     ConferencesPane conferencesPane() {
         return new ConferencesPane();
+    }
+
+    @Bean
+    Main authorMain() {
+        return new Main();
+    }
+
+    @Bean
+    ui.conferences.reviewer.Main reviewerMain() {
+        return new ui.conferences.reviewer.Main();
+    }
+
+    @Bean
+    SelectFile selectFile() {
+        return new SelectFile();
     }
 }

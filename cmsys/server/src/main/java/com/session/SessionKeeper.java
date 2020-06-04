@@ -25,6 +25,8 @@ public class SessionKeeper {
 
         sessions.put(token, new Pair<>(username, loginTime));
 
+        System.out.println(token+" @"+loginTime+", "+username);
+
         return new Pair<String, LocalDateTime>(token, loginTime);
     }
 

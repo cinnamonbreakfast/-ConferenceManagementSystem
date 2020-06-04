@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import repository.ConferenceRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConferenceService {
 
-    ConferenceRepository conferenceRepository;
+    private final ConferenceRepository conferenceRepository;
 
     @Autowired
     public ConferenceService(ConferenceRepository conferenceRepository) {
@@ -28,5 +29,10 @@ public class ConferenceService {
 
     public User getChair(Long id) {
         return this.conferenceRepository.getChair(id);
+    }
+
+    public Conference getById(Long id) {
+        Optional<Conference> resp = conferenceRepository.findById(id);
+        return resp.orElse(null);
     }
 }
