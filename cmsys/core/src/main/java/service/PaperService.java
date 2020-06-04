@@ -36,6 +36,11 @@ public class PaperService {
         return paperRepository.save(paper);
     }
 
+    public Paper getById(Long id)
+    {
+        return paperRepository.findById(id).orElse(null);
+    }
+
     public List<Paper> getByUandC(String username, Long conference) {
         return paperRepository.getByUandC(username, conference);
     }

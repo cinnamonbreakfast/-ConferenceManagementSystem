@@ -38,6 +38,7 @@ public class MainWindow {
 
     @FXML public AnchorPane anchorPane;
     @FXML public Button conferencesTab;
+    @FXML public Button settingsTab;
     @FXML public Label tabLocation;
     @FXML public Label tabTitle;
     @FXML public SplitPane splitPane;
@@ -74,6 +75,7 @@ public class MainWindow {
     @FXML
     public void conferencesClick(ActionEvent event) {
         conferencesTab.getStyleClass().remove("active");
+        settingsTab.getStyleClass().remove("active");
 
         conferencesTab.getStyleClass().add("active");
         activeTab = 1;
@@ -95,6 +97,7 @@ public class MainWindow {
     void membersClick(ActionEvent event)
     {
         conferencesTab.getStyleClass().remove("active");
+        settingsTab.getStyleClass().remove("active");
 
         activeTab = 0;
 
@@ -106,7 +109,9 @@ public class MainWindow {
     void settingsClick(ActionEvent event)
     {
         conferencesTab.getStyleClass().remove("active");
+        settingsTab.getStyleClass().remove("active");
 
+        settingsTab.getStyleClass().add("active");
         activeTab = 2;
 
         tabLocation.setText("Home > Settings");

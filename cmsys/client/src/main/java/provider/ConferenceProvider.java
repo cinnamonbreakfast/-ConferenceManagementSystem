@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 public class ConferenceProvider {
-    @Value("http://25.134.143.82:8080")
+    @Value("http://25.139.122.210:8080")
     private String URL;
     private String token = null;
 

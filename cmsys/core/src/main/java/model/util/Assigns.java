@@ -26,4 +26,10 @@ public class Assigns extends Entity<Long> {
 
     @Column
     Boolean declined;
+
+    @Column
+    String review;
+
+    @Column
+    String rating;
 }

@@ -23,6 +23,7 @@ public class Main {
     @FXML public AnchorPane mainAuthor;
     @FXML public VBox paperList;
 
+
     PermissionDTO permission;
 
     @Autowired
