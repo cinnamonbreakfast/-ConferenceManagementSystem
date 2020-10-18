@@ -1,0 +1,168 @@
+.root {
+    -fx-background-color: #FFFFFF;
+    -cms-ui-bg: #FFFFFF;
+    -cms-theme-color: #FFA500;
+    -cms-theme-grey: #CBCBCB;
+    -cms-theme-pressed: #DF9000;
+    -cms-label-grey: #999999;
+    -fx-focus-color: transparent;
+
+    -cms-menu-inactive: #C9C9C9;
+    -cmx-menu-active: #333333;
+}
+
+.split-pane {
+    -fx-border-width: 0px 0px 0px 0px;
+    -fx-box-border: transparent;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}
+
+.split-pane .anchor-pane {
+    -fx-background-color: -cms-ui-bg;
+}
+
+.split-pane .side-pane {
+    -fx-background-color: #FFFFFF;
+}
+
+.split-pane .main-pane {
+    -fx-background-color: #FCFCFC;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -cms-menu-inactive;
+    -fx-text-alignment: left;
+}
+.menu-button:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: -cms-menu-inactive;
+    -fx-cursor: hand;
+    -fx-opacity: 1;
+    -fx-padding: 0px 0px 0px 3px;
+}
+.menu-button:pressed {
+    -fx-background-color: transparent;
+    -fx-text-fill: -cms-menu-inactive;
+    -fx-cursor: hand;
+}
+
+.menu-button.active {
+    -fx-text-fill: #FFA500;
+}
+
+.h1 {
+    -fx-text-fill: #333333;
+    -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-font-smoothing-type: gray;
+}
+
+.h2 {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.h3 {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.h4 {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.avatar {
+    -fx-border-width: 0px;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+.button.grayed {
+    -fx-background-color: transparent;
+    -fx-text-fill: #999999;
+}
+.button:hover.grayed {
+    -fx-background-color: transparent;
+    -fx-opacity: 1;
+    -fx-text-fill: -cms-theme-color;
+}
+
+.button:pressed.grayed {
+    -fx-background-color: transparent;
+    -fx-text-fill: -cms-theme-pressed;
+}
+
+/* SCROLL */
+
+.scroll-bar:vertical .track{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:horizontal .track{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:horizontal .thumb{
+    -fx-background-color: #FFA500;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:vertical .thumb{
+    -fx-background-color: #FFA500;
+    -fx-border-color: #FFFFFF;
+}
+
+
+.scroll-bar:vertical *.increment-button,
+.scroll-bar:vertical *.decrement-button{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:vertical *.increment-arrow .content,
+.scroll-bar:vertical *.decrement-arrow .content{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+
+}
+
+.scroll-bar:vertical *.increment-arrow,
+.scroll-bar:vertical *.decrement-arrow {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+
+.scroll-bar:horizontal *.increment-button,
+.scroll-bar:horizontal *.decrement-button{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:horizontal *.increment-arrow .content,
+.scroll-bar:horizontal *.decrement-arrow .content{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-bar:horizontal *.increment-arrow,
+.scroll-bar:horizontal *.decrement-arrow{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-pane .corner{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.scroll-pane{
+    -fx-border-color: #FFFFFF;
+}

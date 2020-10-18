@@ -1,0 +1,58 @@
+create table development.users
+(
+    id         bigint       not null
+        constraint user_pkey
+            primary key,
+    email      varchar(255) not null,
+    first_name varchar(255) not null,
+    last_name  varchar(255) not null,
+    password   varchar(255) not null,
+    username   varchar(255) not null
+);
+
+alter table development.users
+    owner to postgres;
+
+create table development.conference
+(
+    id          serial  not null
+        constraint conference_pk
+            primary key,
+    title       varchar,
+    description varchar,
+    phase       integer not null,
+    chair       integer not null
+        constraint conference_users_id_fk
+            references development.users
+);
+
+alter table development.conference
+    owner to postgres;
+
+create unique index conference_id_uindex
+    on development.conference (id);
+
+create table development.permissions
+(
+    id       serial  not null
+        constraint permissions_pk
+            primary key,
+    conf_id  integer not null
+        constraint permissions_conference_id_fk
+            references development.conference
+            on update cascade on delete cascade,
+    user_id  integer not null
+        constraint permissions_users_id_fk
+            references development.users,
+    chair    boolean default false,
+    cochair  boolean default false,
+    reviewer boolean default false,
+    author   boolean default false,
+    co_chair boolean
+);
+
+alter table development.permissions
+    owner to postgres;
+
+create unique index permissions_id_uindex
+    on development.permissions (id);

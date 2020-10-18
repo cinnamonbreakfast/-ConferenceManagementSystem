@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?scenebuilder-stylesheet ui/forms/basic_forms.css?>
+
+<AnchorPane fx:id="anchpane" prefHeight="620.0" prefWidth="600.0" styleClass="body" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.StartWindow">
+   <Label styleClass="grey-label" text="© PisicutelePPufoase" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0" />
+  <ImageView fx:id="loginHero" fitHeight="219.0" fitWidth="194.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0">
+    <Image url="@images/sign/login_hero.png" />
+  </ImageView>
+  <VBox layoutY="2.0" prefHeight="620.0" prefWidth="600.0" style="-fx-alignment: center;" styleClass="hero" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+          <VBox.margin>
+              <Insets bottom="10.0" />
+          </VBox.margin>
+          <Image url="@images/sign/logo.png" />
+      </ImageView>
+    <Label styleClass="h2" text="Welcome to CMS">
+      <font>
+        <Font name="System Bold" size="25.0" />
+      </font>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+    </Label>
+      <TabPane maxWidth="-Infinity" prefHeight="234.0" prefWidth="200.0" styleClass="" tabClosingPolicy="UNAVAILABLE">
+          <Tab fx:id="signInTab" text="Sign In">
+              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="194.0" prefWidth="200.0">
+                  <VBox maxWidth="-Infinity" prefHeight="198.0" prefWidth="200.0" style="-fx-padding: 15px 0px 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <Label prefWidth="200.0" styleClass="grey-label" text="Username or E-mail">
+                          <padding>
+                              <Insets left="5.0" />
+                          </padding>
+                      </Label>
+                      <TextField id="login_textbox" fx:id="login_user_textbox" maxHeight="30.0" maxWidth="220.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                          <VBox.margin>
+                              <Insets bottom="20.0" />
+                          </VBox.margin>
+                      </TextField>
+                      <Label maxWidth="200.0" prefWidth="200.0" styleClass="grey-label" text="Password">
+                          <padding>
+                              <Insets left="5.0" />
+                          </padding>
+                      </Label>
+                      <PasswordField fx:id="login_password_textbox" prefHeight="30.0">
+                          <opaqueInsets>
+                              <Insets />
+                          </opaqueInsets>
+                          <VBox.margin>
+                              <Insets bottom="20.0" />
+                          </VBox.margin>
+                      </PasswordField>
+                      <Button fx:id="loginBtn" maxHeight="30.0" maxWidth="220.0" mnemonicParsing="false" onAction="#loginUser" prefHeight="30.0" prefWidth="220.0" text="Continue" />
+                  </VBox>
+              </AnchorPane>
+          </Tab>
+          <Tab fx:id="signUpTab" onSelectionChanged="#signUpPage" text="Sign Up">
+              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <content>
+                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="200.0" style="-fx-background-color: white;">
+                        <children>
+                              <VBox prefHeight="327.0" prefWidth="200.0" AnchorPane.bottomAnchor="-127.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <padding>
+                                      <Insets top="5.0" />
+                                  </padding>
+                                  <Label styleClass="grey-label" text="E-mail">
+                                      <VBox.margin>
+                                          <Insets />
+                                      </VBox.margin>
+                                      <padding>
+                                          <Insets left="5.0" />
+                                      </padding>
+                                  </Label>
+                                  <TextField fx:id="signup_Email" prefHeight="30.0">
+                                      <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                                  <Label styleClass="grey-label" text="First Name">
+                                      <padding>
+                                          <Insets left="5.0" />
+                                      </padding>
+                                  </Label>
+                                  <TextField fx:id="signup_FirstName" prefHeight="30.0">
+                                      <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                              <Label styleClass="grey-label" text="Last Name">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="signup_LastName" prefHeight="30.0">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label styleClass="grey-label" text="Username">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="signup_Username" prefHeight="30.0">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </TextField>
+                                  <Label styleClass="grey-label" text="Password">
+                                      <padding>
+                                          <Insets left="5.0" />
+                                      </padding>
+                                  </Label>
+                                  <PasswordField fx:id="signup_Password" prefHeight="30.0" prefWidth="200.0">
+                                      <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                      </VBox.margin>
+                                  </PasswordField>
+                                  <Button fx:id="signUpBtn" mnemonicParsing="false" onAction="#signUp" prefHeight="30.0" prefWidth="201.0" text="Create" />
+                              </VBox>
+                        </children>
+                        <padding>
+                           <Insets right="20.0" />
+                        </padding>
+                     </AnchorPane>
+                 </content>
+               </ScrollPane>
+              </AnchorPane>
+          </Tab>
+      </TabPane>
+      <padding>
+         <Insets top="30.0" />
+      </padding>
+  </VBox>
+</AnchorPane>

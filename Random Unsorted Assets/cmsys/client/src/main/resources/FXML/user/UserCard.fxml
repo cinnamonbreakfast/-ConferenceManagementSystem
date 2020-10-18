@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="card" prefHeight="200.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.user.UserCard">
+    <Rectangle arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="150.0" />
+   <ImageView fx:id="crown" fitHeight="60.0" fitWidth="20.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="15.0">
+      <image>
+         <Image url="@../../ui/main/crown.png" />
+      </image>
+   </ImageView>
+    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets top="30.0" />
+        </padding>
+        <Rectangle fx:id="avatar" arcHeight="240.0" arcWidth="240.0" fill="#fcfcfc" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0">
+            <VBox.margin>
+                <Insets bottom="30.0" />
+            </VBox.margin>
+        </Rectangle>
+        <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+            <styleClass>
+                <String fx:value="h2" />
+                <String fx:value="grey-label" />
+            </styleClass>
+        </Text>
+        <Text fx:id="rank" fill="#818181" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="grey-label" text="Rank" />
+    </VBox>
+   <ImageView fitHeight="20.0" fitWidth="20.0" onMouseReleased="#deleteUser" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <image>
+         <Image url="@../../../../../../../UI/Avatar.png" />
+      </image>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+</AnchorPane>

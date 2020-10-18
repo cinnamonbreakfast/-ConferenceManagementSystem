@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?scenebuilder-stylesheet ui/forms/basic_forms.css?>
+<?scenebuilder-stylesheet ui/main/main_window.css?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.conferences.Hello">
+   <VBox fx:id="hello" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label prefHeight="103.0" prefWidth="464.0" styleClass="h1" text="Start your first conference right now" textAlignment="CENTER" wrapText="true" />
+      <Label prefHeight="59.0" prefWidth="432.0" text="Begin by adding a name, a due date, then invite all yourpeople to join your conference." textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#createConference" prefHeight="25.0" prefWidth="92.0" text="Create+" />
+   </VBox>
+   <VBox fx:id="steps" layoutX="24.0" layoutY="24.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <padding>
+         <Insets bottom="30.0" />
+      </padding>
+      <HBox prefHeight="20.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="50.0" />
+         </VBox.margin>
+         <Label fx:id="step1Label" text="Step 1" />
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cbcbcb" height="1.0" stroke="#cbcbcb" strokeType="INSIDE" strokeWidth="0.0" width="150.0" HBox.hgrow="NEVER">
+            <HBox.margin>
+               <Insets left="5.0" right="5.0" top="9.0" />
+            </HBox.margin>
+         </Rectangle>
+         <Text fx:id="step2Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Step 2" />
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cbcbcb" height="1.0" stroke="#cbcbcb" strokeType="INSIDE" strokeWidth="0.0" width="150.0" HBox.hgrow="NEVER">
+            <HBox.margin>
+               <Insets left="5.0" right="5.0" top="9.0" />
+            </HBox.margin>
+         </Rectangle>
+         <Text fx:id="step3Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Step 3" />
+      </HBox>
+      <AnchorPane fx:id="step1" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TextField fx:id="titleBox" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" promptText="Title">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextField>
+            <TextArea fx:id="descrBox" maxHeight="500.0" prefHeight="200.0" prefWidth="200.0" promptText="Description" styleClass="text-field" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextArea>
+         </VBox>
+      </AnchorPane>
+      <AnchorPane fx:id="step2" prefWidth="600.0" VBox.vgrow="ALWAYS">
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox prefHeight="400.0" prefWidth="17.0" HBox.hgrow="ALWAYS">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2" text="Abstract papers">
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin>
+               </Text>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Write a short a summary of your research paper, giving the essence and letting the reviewers remember the key points" wrappingWidth="166.013671875">
+                  <VBox.margin>
+                     <Insets bottom="20.0" />
+                  </VBox.margin>
+               </Text>
+               <DatePicker fx:id="abstractDeadline" promptText="Abstract papers" />
+            </VBox>
+            <VBox prefHeight="200.0" HBox.hgrow="ALWAYS">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2" text="Full papers">
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin>
+               </Text>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Upload the detailed document, as a se sequence of sections that explain and demonstrate your points and conclusions." wrappingWidth="170.013671875">
+                  <VBox.margin>
+                     <Insets bottom="20.0" />
+                  </VBox.margin>
+               </Text>
+               <DatePicker fx:id="fullpapersDeadline" promptText="Full papers">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+               </DatePicker>
+            </VBox>
+            <VBox prefHeight="200.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2" text="Bidding" VBox.vgrow="ALWAYS">
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin>
+               </Text>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Each PC member will analyze each abstract and state if they want to do a review on the paper until the given deadline. " wrappingWidth="170.013671875">
+                  <VBox.margin>
+                     <Insets bottom="20.0" />
+                  </VBox.margin>
+               </Text>
+               <DatePicker fx:id="biddingDeadline" promptText="Bidding phase" />
+            </VBox>
+            <padding>
+               <Insets left="50.0" right="50.0" />
+            </padding>
+         </HBox>
+      </AnchorPane>
+      <AnchorPane fx:id="step3" prefHeight="400.0" prefWidth="649.0">
+         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <padding>
+               <Insets left="50.0" right="50.0" />
+            </padding>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2" text="Invite people">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invite any user from this platform by simply writing their username and press add" wrappingWidth="207.13671875">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Text>
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <TextField fx:id="createInviteUsername" onKeyTyped="#getSuggestion" prefHeight="25.0" prefWidth="200.0" promptText="\@username" HBox.hgrow="NEVER" />
+               <SplitMenuButton fx:id="inviteRank" mnemonicParsing="false" onAction="#selectRank" text="Author">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="Co-Chair" />
+                     <MenuItem mnemonicParsing="false" text="Reviewer" />
+                     <MenuItem mnemonicParsing="false" text="Author" />
+                  </items>
+               </SplitMenuButton>
+               <Button fx:id="inviteAdd" mnemonicParsing="false" onAction="#inviteUser" prefHeight="25.0" prefWidth="60.0" styleClass="black-button" text="Add" />
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="225.0" minHeight="225.0" pannable="true" prefHeight="225.0" vbarPolicy="NEVER" VBox.vgrow="NEVER">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <HBox fx:id="invitedUserList" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </VBox>
+      </AnchorPane>
+      <HBox alignment="CENTER_RIGHT" maxHeight="30.0" minHeight="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" spacing="30.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="50.0" right="50.0" />
+         </padding>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+         <Button fx:id="backBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#back" styleClass="transparent-button" text="Back" HBox.hgrow="ALWAYS" />
+         <Button fx:id="continueBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextStep" styleClass="black-button" text="Continue" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+         </Button>
+      </HBox>
+   </VBox>
+</AnchorPane>

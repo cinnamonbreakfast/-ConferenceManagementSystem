@@ -1,0 +1,4 @@
+rootProject.name = 'cmsys2.0'
+include 'client'
+include 'common'
+

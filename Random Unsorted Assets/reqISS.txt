@@ -1,0 +1,44 @@
+Functional requirements:
+	Support the automatic management of information related to scientific conferences.
+	Authors submitting proposals.
+	Each conference participant has to pay the registration.
+	Once the accepted proposals are known, the different sections of the conference are decided;
+	Evaluation deadline and announcing the results of paper valuation.
+	Each conference participant has to pay the registration.
+	The information about the event is posted on the conference site.
+	PC members (including the conference chair or the conference co-chairs) uploads information.
+	The chair or one of co-chairs have the permission to change deadlines by postponing them to later data.
+	Each person interested to submit a proposal create its own user account fulfilling the information required.
+	It is possible to upload also the full paper.
+	Users may upload new versions both for the abstract and the paper.
+	PC members are required to bid the proposals.
+	At least two different reviewers have to evaluate each paper.
+	Once a reviewer uploads the results of its evaluation, she/he will see the other evaluations of the same paper delivered by other reviewers.
+	Only papers accepted and presented on the conference will be published.
+	PC members excepting the chair/co-chairs can submit proposals by logging as authors.
+	Each section is supervised by a session chair.
+	A speaker cannot be the chair of the section in which she/he present his paper.
+	PC members excepting the chair/co-chairs can submit proposals by logging as authors.
+	Participants are invited to specify which are the sections they intend to participate in.
+	Speakers upload on the conference site the content of the presentation by means of a .pdf or .ppt(x) file.
+	Each PC member has to do a brief analyze of abstracts or papers in order say if they are pleased to review some papers, or if they are could evaluate some papers, or if they refuse to evaluate other papers.
+Nonfunctional requirements:
+	This information concern: the authors submitting proposals, the members of the Program Committee, the submissions' abstract and full papers proposed, meta-information about these, the deadlines for different phases of sending proposals, assigning paper to reviewers, evaluation deadline and announcing the results of paper valuation. 
+	The conference participants which can be: session chairs, speakers or listeners.
+	This information includes the name of the conference, the interval in which the event will take place, the "Call for papers".
+	Submit the abstract and fulfills the meta-information required: the name of the proposal, the keywords, the topics, the possible list of authors and their meta-information).
+	Uploading proposals can be done before the deadline mentioned on the conference site and on the "Call for papers".
+	By default any reviewer do not receive for evaluation a paper refused in the bidding phase.
+	The result of each reviewer is one of the followings qualifiers: strong accept, accept, weak accept, borderline paper, weak reject, reject and strong reject.
+	Usually there are three reviewers(evaluators) for each paper but depending on the conference level there can be also 4 reviewers.
+	The papers whose evaluation do not contains any level of reject are accepted by default.
+	The evaluation qualifier is justified by means of a set of recommendations that each reviewer attach to evaluated proposals.
+	Only papers accepted and presented on the conference will be published.
+	The conference is structured on different sections, some of them organized in parallel.
+	Authors presenting their accepted papers are named speakers.
+	Participants to each section are: chair, speakers and listeners.
+
+
+
+
+

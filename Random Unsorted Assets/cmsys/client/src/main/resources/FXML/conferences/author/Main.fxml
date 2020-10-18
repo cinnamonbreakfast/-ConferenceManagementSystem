@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="mainAuthor" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.conferences.author.Main">
+   <children>
+      <VBox layoutX="-1.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#uploadFile" styleClass="black-button" text="Upload Paper">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <TabPane fx:id="tabPane" onMouseClicked="#tabClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+              <tabs>
+                <Tab closable="false" text="My papers">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <HBox prefHeight="332.0" style="-fx-background-color: #FFFFFF;">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="30.0" prefWidth="212.0" styleClass="h2" text="Abstract papers" textAlignment="RIGHT" />
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="73.0" prefWidth="213.0" styleClass="grey-label" text="Write a short a summary of your research paper, giving the essence and letting the reviewers remember the key points" textAlignment="RIGHT" wrapText="true" />
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <AnchorPane maxWidth="2.0" minWidth="2.0" prefWidth="2.0" style="-fx-background-color: #FFA500;" HBox.hgrow="ALWAYS" />
+                                          <VBox fx:id="paperList" prefHeight="200.0" style="-fx-background-color: #FFFFFF;">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
